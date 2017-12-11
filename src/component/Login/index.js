@@ -9,7 +9,7 @@ import {loginAction} from '../../store/main/action.js'
 class Index extends Component {
     state = {
         account: '13760651386',
-        password: 'test1234',
+        password: '',
     }
 
     componentDidMount() {
@@ -21,19 +21,8 @@ class Index extends Component {
     login = () => {
         let {account, password} = this.state;
         console.log('props', this.props);
-
-        this.props.dispatch(loginAction(account, password));
-
-        /*post({
-            url: 'http://2811backend.fengchaoli.com/api/common/token/get',
-            options: {headers: {}},
-            success: (response)=>{
-                console.log(response);
-            },
-            error: (error)=>{
-                console.log(error);
-            }
-        })*/
+        this.props.loginAction(account, password);
+        // this.props.dispatch(loginAction(account, password));
     }
 
     onChange = (key, e) => {
@@ -42,33 +31,60 @@ class Index extends Component {
 
     render() {
         let {account, password} = this.state;
+        let {loginResultData} = this.props;
+
         return (
             <div>
                 <div>
-                    <input placeholder="请输入账号" onChange={this.onChange.bind(this, 'account')} value={account}/>
+                    <input
+                        placeholder="请输入账号"
+                        onChange={this.onChange.bind(this, 'account')}
+                        value={account}
+                        style={{height: '30px', marginTop: '10px', fontSize: '14px', paddingLeft: '5px'}}
+                    />
                 </div>
 
                 <div>
-                    <input placeholder="请输入密码" onChange={this.onChange.bind(this, 'password')} value={password}/>
+                    <input
+                        placeholder="请输入密码"
+                        onChange={this.onChange.bind(this, 'password')}
+                        value={password}
+                        type="password"
+                        style={{height: '30px', marginTop: '10px', fontSize: '14px', paddingLeft: '5px'}}
+                    />
                 </div>
 
                 <div>
-                    <a onClick={this.login}>登陆</a>
+                    <a
+                        onClick={this.login}
+                        style={{display: 'block', border: '1px solid #333', height: '30px', lineHeight: '30px', width: '80px', textAlign: 'center', borderRadius: '4px', margin: '10px auto', fontSize: '14px', cursor: 'point'}}
+                    >登陆</a>
                 </div>
+
+                {
+                    loginResultData &&
+                    <div style={{color:'red'}}>
+                        登陆成功
+                    </div>
+                }
             </div>
         )
     }
 }
 
-function mapStateToProps(state) {
-    const {} = state;
+function mapStateToProps(state, ownProps) {
+    console.log('mapStateToProps-ownProps', ownProps);
+    const {login} = state;
     return {
+        loginResultData: login && login.loginResult && login.loginResult.data
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {}
+function mapDispatchToProps(dispatch, ownProps) {
+    console.log('mapDispatchToProps-ownProps', ownProps);
+    return {
+        loginAction: bindActionCreators(loginAction, dispatch)
+    }
 }
 
-export default connect(mapStateToProps)(Index);
-// export default Index;
+export default connect(mapStateToProps, mapDispatchToProps)(Index);
