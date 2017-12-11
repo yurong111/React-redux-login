@@ -6,6 +6,7 @@ import {post} from '../../Api';
 import {loginAction} from '../../store/main/action.js'
 
 
+
 class Index extends Component {
     state = {
         account: '13760651386',
@@ -59,7 +60,7 @@ class Index extends Component {
                 <div>
                     <a
                         onClick={this.login}
-                        style={{display: 'block', border: '1px solid #333', height: '30px', lineHeight: '30px', width: '80px', textAlign: 'center', borderRadius: '4px', margin: '10px auto', fontSize: '14px', cursor: 'point'}}
+                        style={{display: 'block', border: '1px solid #eaeaea', height: '30px', lineHeight: '30px', width: '80px', textAlign: 'center', borderRadius: '4px', margin: '10px auto', fontSize: '14px', cursor: 'point'}}
                     >登陆</a>
                 </div>
 
