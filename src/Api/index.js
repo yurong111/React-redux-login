@@ -26,12 +26,9 @@ export function post(params) {
     let _options = getOptionsBeforeApi(options);
 
     return axios.post(url, data, _options)
-        .then(function (response) {
-            success(response);
+        .then((response)=> {
             doSuccess(response);
+            return response;
         })
-        .catch(function (error) {
-            error(error)
-        });
 }
 

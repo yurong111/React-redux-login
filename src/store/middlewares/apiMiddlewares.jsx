@@ -21,7 +21,24 @@ export default function apiMiddlewares(store) {
         });
 
         // action.payload.promise =  action.payload.promise.then(
-        action.payload.promise.then(
+
+        action.payload.promise
+            .then(
+                response => {
+                    return dispatch({
+                        type: `${type}_SUCCESS`,
+                        payload: response
+                    })
+            })
+            .catch(
+                err => {
+                    dispatch({
+                        type: `${type}_ERROR`,
+                        payload: err
+                    })
+            })
+
+        /*action.payload.promise.then(
             response => {
                 return dispatch({
                     type: `${type}_SUCCESS`,
@@ -34,7 +51,7 @@ export default function apiMiddlewares(store) {
                     payload: err
                 })
             }
-        );
+        );*/
 
         return action;
     }
