@@ -31,7 +31,9 @@ class Index extends Component {
 
     render() {
         let {account, password} = this.state;
-        let {loginResultData} = this.props;
+        let {loginResult} = this.props;
+
+        console.log('loginResult', loginResult);
 
         return (
             <div>
@@ -62,9 +64,19 @@ class Index extends Component {
                 </div>
 
                 {
-                    loginResultData &&
-                    <div style={{color:'red'}}>
-                        登陆成功
+                    loginResult &&
+                    <div>
+                        {
+                            loginResult.code == '200'
+                                ?
+                            <div style={{color:'red'}}>
+                                登陆成功
+                            </div>
+                                :
+                            <div style={{color:'red'}}>
+                                {loginResult.data}
+                            </div>
+                        }
                     </div>
                 }
             </div>
@@ -76,7 +88,7 @@ function mapStateToProps(state, ownProps) {
     console.log('mapStateToProps-ownProps', ownProps);
     const {login} = state;
     return {
-        loginResultData: login && login.loginResult && login.loginResult.data
+        loginResult: login && login.loginResult
     }
 }
 
