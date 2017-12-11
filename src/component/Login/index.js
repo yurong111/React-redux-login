@@ -3,12 +3,13 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Base64} from 'js-base64';
 import {post} from '../../Api';
+import {loginAction} from '../../store/main/action.js'
 
 
 class Index extends Component {
     state = {
-        account: '',
-        password: '',
+        account: '13760651386',
+        password: 'test1234',
     }
 
     componentDidMount() {
@@ -19,8 +20,11 @@ class Index extends Component {
 
     login = () => {
         let {account, password} = this.state;
+        console.log('props', this.props);
 
-        post({
+        this.props.dispatch(loginAction(account, password));
+
+        /*post({
             url: 'http://2811backend.fengchaoli.com/api/common/token/get',
             options: {headers: {}},
             success: (response)=>{
@@ -29,7 +33,7 @@ class Index extends Component {
             error: (error)=>{
                 console.log(error);
             }
-        })
+        })*/
     }
 
     onChange = (key, e) => {
@@ -56,7 +60,7 @@ class Index extends Component {
     }
 }
 
-/*function mapStateToProps(state) {
+function mapStateToProps(state) {
     const {} = state;
     return {
     }
@@ -66,5 +70,5 @@ function mapDispatchToProps(dispatch) {
     return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Index);*/
-export default Index;
+export default connect(mapStateToProps)(Index);
+// export default Index;
