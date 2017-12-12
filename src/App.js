@@ -3,12 +3,16 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './component/Login';
 import Home from './component/Home';
-import {BrowserRouter, Route } from 'react-router-dom';
+
+// import { renderRouters } from './routes';
+import cookie from 'js-cookie';
+import {BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 class App extends Component {
 
     render() {
         console.log('props', this.props);
+        let isLogin = cookie.get('x-token');
 
         return (
             <BrowserRouter>
@@ -19,8 +23,31 @@ class App extends Component {
                     </header>
 
 
-                    <Route path="/login" component={Login}/>
-                    <Route exact path="/" component={Home}/>
+                    <Switch>
+                        {/*{
+                            renderRouters().map((route, i) => {
+                                return (
+                                    <Route exact path={route.path} render={(props)=>{
+                                        return isLogin
+                                            ?
+                                                <Bundle load={route.component}>
+                                                    {(Comp) => <Comp {...props}/>}
+                                                </Bundle>
+                                            :
+                                            <Redirect to="/login"/>
+                                    }}/>
+                                )
+                            })
+                        }*/}
+
+                        <Route exact path="/" render={(props)=>{
+                            return isLogin ? <Home/> : <Redirect to="/login"/>
+                        }}/>
+
+                        <Route path="/login" render={(props)=>{
+                            return !isLogin ? <Login/> : <Redirect to="/"/>
+                        }}/>
+                    </Switch>
 
                 </div>
             </BrowserRouter>

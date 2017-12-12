@@ -1,8 +1,8 @@
 import React, {PropTypes, Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import {Base64} from 'js-base64';
-import {post} from '../../Api';
 import {loginAction} from '../../store/main/action.js'
 
 
@@ -17,11 +17,15 @@ class Index extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        let {loginStatus} = nextProps;
+        console.log('loginStatus', loginStatus,'this', this.props.loginStatus);
+        if (loginStatus && loginStatus != this.props.loginStatus) {
+            this.props.history.go('/');
+        }
     }
 
     login = () => {
         let {account, password} = this.state;
-        console.log('props', this.props);
         this.props.loginAction(account, password);
         // this.props.dispatch(loginAction(account, password));
     }
@@ -33,8 +37,6 @@ class Index extends Component {
     render() {
         let {account, password} = this.state;
         let {loginResult} = this.props;
-
-        console.log('loginResult', loginResult);
 
         return (
             <div>
@@ -86,18 +88,17 @@ class Index extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    console.log('mapStateToProps-ownProps', ownProps);
     const {login} = state;
     return {
-        loginResult: login && login.loginResult
+        loginResult: login && login.loginResult,
+        loginStatus: login.LOGIN,
     }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-    console.log('mapDispatchToProps-ownProps', ownProps);
     return {
         loginAction: bindActionCreators(loginAction, dispatch)
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Index);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));
