@@ -20,7 +20,6 @@ export default function apiMiddlewares(store) {
             ...!!meta ? {meta} : {}
         });
 
-        // action.payload.promise =  action.payload.promise.then(
 
         action.payload.promise
             .then(
@@ -37,21 +36,6 @@ export default function apiMiddlewares(store) {
                         payload: err
                     })
             })
-
-        /*action.payload.promise.then(
-            response => {
-                return dispatch({
-                    type: `${type}_SUCCESS`,
-                    payload: response
-                })
-            },
-            err => {
-                dispatch({
-                    type: `${type}_ERROR`,
-                    payload: err
-                })
-            }
-        );*/
 
         return action;
     }

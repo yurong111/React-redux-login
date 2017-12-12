@@ -4,7 +4,6 @@ import './App.css';
 import Login from './component/Login';
 import Home from './component/Home';
 import {BrowserRouter, Route } from 'react-router-dom';
-import cookies from 'js-cookie';
 
 class App extends Component {
 
